@@ -12,7 +12,7 @@
  * Data structure to hold the measurement data
  */
 struct MeasurementPackage {
-  long long timestamp_;
+  long timestamp_;
 
   enum class SensorType{
     LASER,

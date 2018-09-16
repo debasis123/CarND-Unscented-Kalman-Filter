@@ -21,3 +21,8 @@ cmakepatch.txt
 algorithm.txt
 set_git.sh
 .clang-tidy
+data/
+
+# backup files
+main.bak.cpp
+ukf.bak.cpp

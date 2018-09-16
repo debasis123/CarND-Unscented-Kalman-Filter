@@ -207,9 +207,12 @@ int main()
           json msgJson;
           fillFeedbackToSimulator(msgJson, estimate, RMSE);
           std::string msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
-          std::cout << msg << std::endl;
+          // std::cout << msg << std::endl;
+          // std:: cout << "RMSE values: ";
+          // std::cout << "[p_x: " << RMSE(0) << " p_y: " << RMSE(1) 
+          //           << " vx: " << RMSE(2) << " vy: " << RMSE(3) << "]" 
+          //           << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
-          // ws.send(msg.data(), uWS::OpCode::TEXT);
         }
       }
       // o/w, the SocketIO event has no JSON data.

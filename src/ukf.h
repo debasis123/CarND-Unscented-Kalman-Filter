@@ -35,26 +35,6 @@ public:
    */
   void ProcessMeasurement(const MeasurementPackage& meas_package);
 
-  /**
-   * Prediction Predicts sigma points, the state, and the state covariance
-   * matrix
-   * @param delta_t Time between k and k+1 in s
-   */
-  void Prediction(const double delta_t);
-
-  /**
-   * Updates the state and the state covariance matrix using a laser measurement
-   * @param meas_package The measurement at k+1
-   */
-  void UpdateLidar(const MeasurementPackage& meas_package);
-
-  /**
-   * Updates the state and the state covariance matrix using a radar measurement
-   * @param meas_package The measurement at k+1
-   */
-  void UpdateRadar(const MeasurementPackage& meas_package);
-
-
 private:
 
   // initially set to false, set to true in first call of ProcessMeasurement
@@ -78,14 +58,32 @@ private:
   // number of sigma points
   size_t n_sigma_;
 
+  // measurement dimension, radar can measure r, phi, and r_dot
+  size_t n_z_radar_;
+
+  // measurement dimension, laser can measure x, y
+  size_t n_z_laser_;
+
   // state covariance matrix
   Eigen::MatrixXd P_;
+
+  // process noise covariance matrix
+  Eigen::MatrixXd Q_;
 
   // predicted sigma points matrix
   Eigen::MatrixXd Xsig_pred_;
 
   // Weights of sigma points
   Eigen::VectorXd weights_;
+
+  // measurement noise covariance matrix for radar
+  Eigen::MatrixXd R_radar_;
+
+  // measurement noise covariance matrix for laser
+  Eigen::MatrixXd R_laser_;
+
+  // measurement matrix for laser
+  Eigen::MatrixXd H_laser_;
 
   // time when the state is true, in US
   long long prev_timestamp_;
@@ -118,34 +116,43 @@ private:
   double NIS_laser_;
 
 private:
+
+  /**
+   * Prediction Predicts sigma points, the state, and the state covariance
+   * matrix
+   * @param delta_t Time between k and k+1 in s
+   */
+  void Prediction(const double delta_t);
+
+  /**
+   * Updates the state and the state covariance matrix using a laser measurement
+   * @param meas_package The measurement at k+1
+   */
+  void UpdateLidar(const MeasurementPackage& meas_package);
+
+  /**
+   * Updates the state and the state covariance matrix using a radar measurement
+   * @param meas_package The measurement at k+1
+   */
+  void UpdateRadar(const MeasurementPackage& meas_package);
+
+
   void initialize_UKF(const MeasurementPackage& meas_package);
 
   // KF predict
   void generate_augmented_sigma_points(Eigen::MatrixXd& Xsig_aug);
-  void predict_sigma_points(const Eigen::MatrixXd& Xsig_aug, const double delta_t);
+  void predict_sigma_points(const Eigen::MatrixXd& Xsig_aug,
+                            const double delta_t);
   void compute_mean_covariance_of_sigma_points();
-  
-  // KF update: lidar
-  void lidar_predict_measurement_mean_covariance(Eigen::MatrixXd& Zsig,
-                                                 Eigen::VectorXd& z_pred,
-                                                 Eigen::MatrixXd& S,
-                                                 const size_t n_z);
-  void lidar_update_state(const MeasurementPackage& meas_package,
-                          const Eigen::MatrixXd& Zsig,
-                          const Eigen::VectorXd& z_pred,
-                          const Eigen::MatrixXd& S,
-                          const size_t n_z);
 
-  // KF update: readar
+  // KF update: radar
   void radar_predict_measurement_mean_covariance(Eigen::MatrixXd& Zsig,
                                                  Eigen::VectorXd& z_pred,
-                                                 Eigen::MatrixXd& S,
-                                                 const size_t n_z);
+                                                 Eigen::MatrixXd& S);
   void radar_update_state(const MeasurementPackage& meas_package,
                           const Eigen::MatrixXd& Zsig,
                           const Eigen::VectorXd& z_pred,
-                          const Eigen::MatrixXd& S,
-                          const size_t n_z);
+                          const Eigen::MatrixXd& S);
 };
 
 #endif /* UKF_H */
