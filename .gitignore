@@ -1,0 +1,23 @@
+# silly macOS
+.DS_Store
+
+# build files
+build/
+
+ide_profiles/
+tutorials/
+
+# CLion
+.idea/
+cmake-build-debug/
+CMakeLists.txt
+cmakepatch.txt
+
+# sublime
+*.sublime-project
+*.sublime-workspace
+
+# others
+algorithm.txt
+set_git.sh
+.clang-tidy
