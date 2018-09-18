@@ -10,18 +10,18 @@ tutorials/
 # CLion
 .idea/
 cmake-build-debug/
-CMakeLists.txt
-cmakepatch.txt
+# CMakeLists.txt
+# cmakepatch.txt
 
 # sublime
 *.sublime-project
 *.sublime-workspace
 
 # others
-algorithm.txt
+# algorithm.txt
 set_git.sh
 .clang-tidy
-data/
+# data/
 
 # backup files
 main.bak.cpp

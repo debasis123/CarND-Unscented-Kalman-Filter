@@ -1,8 +1,3 @@
-/*               
-* @Author: Udacity
-* @Last Modified by:   debasis123
-*/
-
 #include <iostream>
 #include "tools.h"
 
